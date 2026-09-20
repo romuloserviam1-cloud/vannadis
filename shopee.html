@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Vannadis — Shopee</title>
+  <link rel="stylesheet" href="miniapp.css">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="config.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main data-platform="shopee">
+    <h1>Shopee</h1>
+    <p>Configure suas credenciais da API de afiliados. O Secret não será exibido após salvar.</p>
+    <p id="status" role="status">Verificando acesso…</p>
+    <form id="form" autocomplete="off" hidden>
+      <label>App ID <input id="app-id" name="app-id" required maxlength="100" autocomplete="off"></label>
+      <label>Secret <input id="secret" name="secret" type="password" required maxlength="512" autocomplete="new-password"></label>
+      <button id="validate" type="button">Validar</button>
+      <button id="save" type="submit">Salvar</button>
+      <button id="update" type="submit" hidden>Atualizar</button>
+    </form>
+    <button id="revoke" type="button" hidden>Revogar credenciais</button>
+    <button id="back" type="button">Voltar</button>
+  </main>
+</body>
+</html>

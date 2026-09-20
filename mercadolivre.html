@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Vannadis — Mercado Livre</title>
+  <link rel="stylesheet" href="miniapp.css">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="config.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main data-platform="mercadolivre">
+    <h1>Mercado Livre</h1>
+    <p>Estado: <strong id="status">Verificando acesso…</strong></p>
+    <p>Conversão manual: no chat do bot, toque em <strong>Conversão manual</strong> ou envie <code>/conversao</code>. Cole o link original do produto e depois seu próprio link gerado na Barra de Afiliados. Confira o resultado antes de divulgar.</p>
+    <p>A conversão automática ainda não está disponível. Não informe cookies, senhas ou tokens de sessão.</p>
+    <button id="manual" type="button" hidden>Voltar ao chat para /conversao</button>
+    <button id="back" type="button">Voltar</button>
+  </main>
+</body>
+</html>

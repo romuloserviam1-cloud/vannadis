@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Vannadis — Amazon</title>
+  <link rel="stylesheet" href="miniapp.css">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="config.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main data-platform="amazon">
+    <h1>Amazon Brasil</h1>
+    <p>Cadastre somente seu ID de associado (Partner Tag), como <code>seu-id-20</code>. A conversão de produtos usa o ASIN, sem Creators API. A tag não garante comissão.</p>
+    <p id="status" role="status">Verificando acesso…</p>
+    <form id="form" autocomplete="off" hidden>
+      <label>ID de associado <input id="partner-tag" name="partner-tag" required maxlength="66" autocomplete="off"></label>
+      <button id="save" type="submit">Salvar</button>
+      <button id="update" type="submit" hidden>Atualizar</button>
+    </form>
+    <button id="revoke" type="button" hidden>Remover ID</button>
+    <button id="back" type="button">Voltar</button>
+  </main>
+</body>
+</html>
