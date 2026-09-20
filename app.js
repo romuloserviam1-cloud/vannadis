@@ -35,8 +35,22 @@ async function callApi(method, path, body) {
     redirect: 'error',
   });
   const result = await response.json();
-  if (!response.ok && response.status !== 422) throw Error('Falha de autenticação ou serviço indisponível.');
+  if (!response.ok && response.status !== 422) {
+    const failure = Error('Falha de autenticação ou serviço indisponível.');
+    failure.httpStatus = response.status;
+    throw failure;
+  }
   return result;
+}
+
+function failedOperation(error, invalidMessage) {
+  if (!error.httpStatus || error.httpStatus === 401 || error.httpStatus === 403 || error.httpStatus >= 500) {
+    statusNode.textContent = 'Backend indisponível ou URL do túnel mudou. Cadastro desabilitado; reabra o Mini App após atualizar config.js.';
+    if (form) form.hidden = true;
+    if (revokeButton) revokeButton.hidden = true;
+  } else {
+    statusNode.textContent = invalidMessage;
+  }
 }
 
 function showState(result) {
@@ -75,7 +89,7 @@ async function refresh() {
   try {
     showState(await callApi('GET', `/api/${platform}/status`));
   } catch {
-    statusNode.textContent = 'Backend indisponível. Cadastro desabilitado; tente novamente mais tarde.';
+    statusNode.textContent = 'Backend indisponível ou URL do túnel mudou. Cadastro desabilitado; reabra o Mini App após atualizar config.js.';
     if (form) form.hidden = true;
     if (revokeButton) revokeButton.hidden = true;
     if (platform === 'mercadolivre') document.getElementById('manual').hidden = false;
@@ -95,8 +109,8 @@ if (form) form.addEventListener('submit', async event => {
     statusNode.textContent = result.status === 'configured' ? 'Configuração salva para sua conta.' :
       result.saved_status === 'configured' ? 'Novas credenciais não validadas; configuração anterior preservada.' :
       'A Shopee não confirmou as credenciais. Verifique e atualize.';
-  } catch {
-    statusNode.textContent = 'Não foi possível salvar a configuração.';
+  } catch (error) {
+    failedOperation(error, 'Não foi possível salvar a configuração. Confira os dados informados.');
   } finally {
     if (secretInput) secretInput.value = '';
   }
@@ -112,8 +126,8 @@ if (validateButton) validateButton.addEventListener('click', async () => {
     statusNode.textContent = result.status === 'valid' ?
       'Credenciais validadas. Use Salvar ou Atualizar para gravá-las.' :
       'A Shopee não confirmou as credenciais. Nada foi salvo.';
-  } catch {
-    statusNode.textContent = 'Não foi possível validar as credenciais.';
+  } catch (error) {
+    failedOperation(error, 'Não foi possível validar as credenciais. Confira os dados informados.');
   }
 });
 
@@ -125,8 +139,8 @@ if (revokeButton) revokeButton.addEventListener('click', async () => {
       document.getElementById('app-id').value = '';
       document.getElementById('secret').value = '';
     }
-  } catch {
-    statusNode.textContent = 'Não foi possível remover a configuração.';
+  } catch (error) {
+    failedOperation(error, 'Não foi possível remover a configuração.');
   }
 });
 
